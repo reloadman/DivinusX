@@ -1,0 +1,46 @@
+#pragma once
+
+#include <arpa/inet.h>
+#include <errno.h>
+#include <netinet/in.h>
+#include <pthread.h>
+#include <regex.h>
+#include <signal.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <time.h>
+#include <unistd.h>
+
+#include "app_config.h"
+#include "fmt/mp4.h"
+#include "fmt/nal.h"
+#include "hal/types.h"
+#include "jpeg.h"
+#include "media.h"
+#include "network.h"
+#include "night.h"
+#include "record.h"
+#include "region.h"
+#include "watchdog.h"
+
+extern char graceful, keepRunning, recordOn;
+extern time_t recordStartTime;
+
+int start_server();
+int stop_server();
+
+void send_jpeg_to_client(char index, char *buf, ssize_t size);
+void send_mjpeg_to_client(char index, char *buf, ssize_t size);
+void send_h26x_to_client(char index, hal_vidstream *stream);
+void send_mp4_to_client(char index, hal_vidstream *stream, char isH265);
+void send_pcm_to_client(hal_audframe *frame);
+
+// Fast-path hints for media pipeline: avoid locking/sending when no such clients exist.
+// Updated inside server.c under client_fds_mutex; read opportunistically elsewhere.
+extern volatile int server_pcm_clients;
+extern volatile int server_h26x_clients;
+extern volatile int server_mp4_clients;
+extern volatile int server_mjpeg_clients;
