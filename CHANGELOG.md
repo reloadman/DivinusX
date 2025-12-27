@@ -13,12 +13,7 @@
 ### New top-level directories/files
 
 - **`3dparty/`**: vendored third-party dependencies (see below).
-- **`misc/`**: runtime assets and example configs:
-  - `misc/divinusx.yaml` (fork default config example)
-  - `misc/imx307_openipc.ini`, `misc/iq_template_v4_min.ini` (IQ/ISP related templates)
-  - `misc/Inter-Regular.ttf` (font asset)
-  - `misc/S95divinus` (init/service script)
-- **Board-specific configs**: `divinusx.yaml.gk7205v200`, `divinusx.yaml.infinity6b0` (upstream had a single `divinusx.yaml`).
+- **Board-specific configs**: `divinusx.yaml.gk7205v200`, `divinusx.yaml.infinity6b0`
 - **New sources**:
   - `src/rtsp_smol.c`, `src/rtsp_smol.h` (smolrtsp integration)
   - `src/single_instance.c`, `src/single_instance.h` (pidfile+flock single-instance lock)
