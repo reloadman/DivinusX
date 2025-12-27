@@ -1,21 +1,5 @@
 # DivinusX fork — technical changelog (for upstream developers)
 
-This document describes **what changed in this fork** compared to the original upstream codebase located at:
-
-- **Upstream baseline (local path)**: `/Users/romannaumenko/Work/Faceter/OpenIPC/orig_divinus/divinusx/`
-- **This fork (current branch working tree)**: `/Users/romannaumenko/Work/Faceter/OpenIPC/divinusx/`
-
-Scope/constraints:
-
-- Only **current working tree code** was inspected (no git history; no assumptions).
-- Diff excludes `.git/`, `build/` and `.DS_Store`.
-
-High-level inventory (files):
-
-- **Added**: 1191
-- **Removed**: 1 (`divinusx.yaml`)
-- **Modified**: 65 (mostly `src/*` + build + docs)
-
 ## Summary of major functional changes
 
 - **RTSP reworked**: integrated **smolrtsp + libevent** RTSP server (`src/rtsp_smol.c`) and switched runtime startup to it (`src/main.c`).
