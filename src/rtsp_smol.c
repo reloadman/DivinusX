@@ -377,8 +377,8 @@ static void Controller_describe(VSelf, SmolRTSP_Context *ctx, const SmolRTSP_Req
     SMOLRTSP_SDP_DESCRIBE(
         ret, w,
         (SMOLRTSP_SDP_VERSION, "0"),
-        (SMOLRTSP_SDP_ORIGIN, "divinus-smolrtsp 0 0 IN IP4 0.0.0.0"),
-        (SMOLRTSP_SDP_SESSION_NAME, "divinus"),
+        (SMOLRTSP_SDP_ORIGIN, "divinusx-smolrtsp 0 0 IN IP4 0.0.0.0"),
+        (SMOLRTSP_SDP_SESSION_NAME, "divinusx"),
         (SMOLRTSP_SDP_CONNECTION, "IN IP4 0.0.0.0"),
         (SMOLRTSP_SDP_TIME, "0 0"),
         (SMOLRTSP_SDP_ATTR, "tool:smolrtsp"));

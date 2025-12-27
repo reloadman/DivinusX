@@ -134,16 +134,16 @@ int main(int argc, char *argv[]) {
 
     // Protect against launching a second copy (BusyBox-friendly: pidfile + flock()).
     // Acquire before touching hardware/network to avoid side effects from a duplicate start.
-    if (single_instance_acquire("divinus") != 0) {
+    if (single_instance_acquire("divinusx") != 0) {
         if (errno == EWOULDBLOCK || errno == EAGAIN) {
             const char *p = single_instance_pidfile_path();
             if (p)
-                fprintf(stderr, "divinus: already running (pidfile locked: %s)\n", p);
+                fprintf(stderr, "divinusx: already running (pidfile locked: %s)\n", p);
             else
-                fprintf(stderr, "divinus: already running (pidfile locked)\n");
+                fprintf(stderr, "divinusx: already running (pidfile locked)\n");
             return EXIT_FAILURE;
         }
-        fprintf(stderr, "divinus: failed to acquire pidfile lock (%d:%s)\n", errno, strerror(errno));
+        fprintf(stderr, "divinusx: failed to acquire pidfile lock (%d:%s)\n", errno, strerror(errno));
         return EXIT_FAILURE;
     }
 
@@ -153,12 +153,12 @@ int main(int argc, char *argv[]) {
     if (!*family)
         HAL_ERROR("hal", "Unsupported chip family! Quitting...\n");
 
-    fprintf(stderr, "\033[7m Divinus for %s \033[0m\n", family);
+    fprintf(stderr, "\033[7m DivinusX for %s \033[0m\n", family);
     fprintf(stderr, "Chip ID: %s\n", chip);
 
     g_phase = "parse_app_config";
     if (parse_app_config() != CONFIG_OK)
-        HAL_ERROR("hal", "Can't load app config 'divinus.yaml'\n");
+        HAL_ERROR("hal", "Can't load app config 'divinusx.yaml'\n");
 
     // Apply persisted night_mode.manual as early as possible.
     g_phase = "night_manual";

@@ -1,9 +1,9 @@
-# Divinus fork — technical changelog (for upstream developers)
+# DivinusX fork — technical changelog (for upstream developers)
 
 This document describes **what changed in this fork** compared to the original upstream codebase located at:
 
-- **Upstream baseline (local path)**: `/Users/romannaumenko/Work/Faceter/OpenIPC/orig_divinus/divinus/`
-- **This fork (current branch working tree)**: `/Users/romannaumenko/Work/Faceter/OpenIPC/divinus/`
+- **Upstream baseline (local path)**: `/Users/romannaumenko/Work/Faceter/OpenIPC/orig_divinus/divinusx/`
+- **This fork (current branch working tree)**: `/Users/romannaumenko/Work/Faceter/OpenIPC/divinusx/`
 
 Scope/constraints:
 
@@ -13,7 +13,7 @@ Scope/constraints:
 High-level inventory (files):
 
 - **Added**: 1191
-- **Removed**: 1 (`divinus.yaml`)
+- **Removed**: 1 (`divinusx.yaml`)
 - **Modified**: 65 (mostly `src/*` + build + docs)
 
 ## Summary of major functional changes
@@ -30,11 +30,11 @@ High-level inventory (files):
 
 - **`3dparty/`**: vendored third-party dependencies (see below).
 - **`misc/`**: runtime assets and example configs:
-  - `misc/divinus.yaml` (fork default config example)
+  - `misc/divinusx.yaml` (fork default config example)
   - `misc/imx307_openipc.ini`, `misc/iq_template_v4_min.ini` (IQ/ISP related templates)
   - `misc/Inter-Regular.ttf` (font asset)
   - `misc/S95divinus` (init/service script)
-- **Board-specific configs**: `divinus.yaml.gk7205v200`, `divinus.yaml.infinity6b0` (upstream had a single `divinus.yaml`).
+- **Board-specific configs**: `divinusx.yaml.gk7205v200`, `divinusx.yaml.infinity6b0` (upstream had a single `divinusx.yaml`).
 - **New sources**:
   - `src/rtsp_smol.c`, `src/rtsp_smol.h` (smolrtsp integration)
   - `src/single_instance.c`, `src/single_instance.h` (pidfile+flock single-instance lock)
@@ -71,7 +71,7 @@ Fork behavior (`build.sh`):
 
 - **Offline** build helper: assumes toolchains already exist under `$TOOLCHAIN_ROOT` (default `$HOME/openipc/toolchain`).
 - Supports building **all** targets from a fixed list (or one selected platform).
-- Produces artifacts into `builds/divinus.<platform>` (e.g. `builds/divinus.infinity6b0`).
+- Produces artifacts into `builds/divinusx.<platform>` (e.g. `builds/divinusx.infinity6b0`).
 - Adds explicit **debug** mode toggling `OPT` and `LTO`.
 
 ### `src/Makefile`: from “compile everything” to staged + cached static deps
@@ -112,7 +112,7 @@ Fork `src/app_config.c` + `src/app_config.h`:
 - Uses **libfyaml** (`#include <libfyaml.h>`) for both parsing and emitting.
 - Implements a minimal YAML path accessor (mapping-only `/a/b/c`), intentionally avoiding libfyaml ypath.
 - **Config path policy changed**:
-  - `DIVINUS_CONFIG_PATH` defaults to `"/etc/divinus.yaml"` (single fixed path; compile-time override).
+  - `DIVINUSX_CONFIG_PATH` defaults to `"/etc/divinusx.yaml"` (single fixed path; compile-time override).
   - The upstream fallback search logic was removed.
 - `restore_app_config()` API is removed from the header and main shutdown path no longer calls it.
 - Saving now builds a YAML document tree and emits it; special strings (e.g. `time_format` starting with `%`)

@@ -11,8 +11,8 @@
 
 // Single, fixed config path (no fallback search).
 // If you need a different location, change it here and rebuild.
-#ifndef DIVINUS_CONFIG_PATH
-#define DIVINUS_CONFIG_PATH "/etc/divinus.yaml"
+#ifndef DIVINUSX_CONFIG_PATH
+#define DIVINUSX_CONFIG_PATH "/etc/divinusx.yaml"
 #endif
 
 struct AppConfig {

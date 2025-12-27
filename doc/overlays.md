@@ -40,7 +40,7 @@ N.B. Percent signs have to be escaped with %25 in curl URL syntaxes
 
 ### Proportional UI font for time (tabular digits, no shaping engine)
 
-Divinus' current text renderer does not apply OpenType features like `tnum` (tabular numbers).
+DivinusX' current text renderer does not apply OpenType features like `tnum` (tabular numbers).
 If you want a modern proportional UI font (Inter-style) **without the time string width "dancing"**,
 generate a small dedicated TTF with baked tabular digit metrics:
 
@@ -56,7 +56,7 @@ By default, `--subset-time` keeps:
 You can override the kept character set with `--text=...` if you need extra symbols.
 
 Copy the resulting `InterTime.ttf` onto the device (e.g. `/usr/share/fonts/truetype/InterTime.ttf`)
-and set `reg0_font: InterTime` in `divinus.yaml`.
+and set `reg0_font: InterTime` in `divinusx.yaml`.
 
 UTC date and time can be set using Unix timestamps:
 ```

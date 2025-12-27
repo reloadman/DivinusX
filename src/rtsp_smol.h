@@ -1,4 +1,4 @@
-// SmolRTSP integration layer for divinus.
+// SmolRTSP integration layer for divinusx.
 #pragma once
 
 #include <stdint.h>

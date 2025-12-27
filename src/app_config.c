@@ -469,7 +469,7 @@ static int repair_divinus_yaml_time_format(const char *conf_path) {
 }
 
 int save_app_config(void) {
-    const char *conf_path = DIVINUS_CONFIG_PATH;
+    const char *conf_path = DIVINUSX_CONFIG_PATH;
 
     // If runtime buffer was corrupted, restore from the clean copy to avoid
     // persisting junk into config.
@@ -917,7 +917,7 @@ enum ConfigError parse_app_config(void) {
     app_config.isp_exptime_low = -1;
     app_config.isp_switch_lockout_s = 15;
 
-    const char *conf_path = DIVINUS_CONFIG_PATH;
+    const char *conf_path = DIVINUSX_CONFIG_PATH;
     struct fy_document *fyd = fy_document_build_from_file(NULL, conf_path);
     if (!fyd) {
         // Config may be corrupted (e.g. malformed UTF-8 in time_format). Try to repair and retry once.

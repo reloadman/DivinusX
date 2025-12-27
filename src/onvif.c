@@ -107,7 +107,7 @@ void *onvif_thread(void) {
             uuid_generate(uuid);
             snprintf(device_uuid, sizeof(device_uuid), "urn:uuid:%s", uuid);
         }
-        snprintf(device_name, sizeof(device_name), "Divinus");
+        snprintf(device_name, sizeof(device_name), "DivinusX");
         snprintf(device_url, sizeof(device_url), "http://%s:%d/onvif/device_service",
             netinfo.ipaddr[0], app_config.web_port);
     

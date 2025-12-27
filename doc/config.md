@@ -1,6 +1,6 @@
 # Configuration Reference
 
-This document describes the fields that can be found within a configuration file for Divinus.
+This document describes the fields that can be found within a configuration file for DivinusX.
 
 ## System section
 
@@ -87,7 +87,7 @@ This document describes the fields that can be found within a configuration file
 ## Audio section
 
 - **enable**: Boolean to activate or deactivate audio functionality.
-- **mute**: Boolean to mute audio while keeping the RTSP/audio track alive. When `true`, Divinus sends digital silence to the encoder (no track removal).
+- **mute**: Boolean to mute audio while keeping the RTSP/audio track alive. When `true`, DivinusX sends digital silence to the encoder (no track removal).
 - **codec**: Audio codec, `MP3` (default) or `AAC` (AAC-LC).
 - **bitrate**: Audio bitrate in kbps (e.g., `128`).
 - **gain**: Audio input level.
@@ -135,7 +135,7 @@ This document describes the fields that can be found within a configuration file
 - **enable**: Boolean to turn on On-Screen Display regions globally, used to reduce resource usage or let another app manage the functionality (default: `true`).
 - **regX_img**: Path to the image for OSD region X.
 - **regX_text**: Text displayed in OSD region X.
-- **regX_font**: Font used for text in OSD region X. Prefer a **full path** to a font file (e.g. `/oem/usr/share/UbuntuMono-Regular.ttf`). For backward compatibility you can still use a font name (e.g. `UbuntuMono-Regular`) and Divinus will try to locate it in common font directories.
+- **regX_font**: Font used for text in OSD region X. Prefer a **full path** to a font file (e.g. `/oem/usr/share/UbuntuMono-Regular.ttf`). For backward compatibility you can still use a font name (e.g. `UbuntuMono-Regular`) and DivinusX will try to locate it in common font directories.
 - **regX_opal**: Opacity of OSD region X.
 - **regX_posx**: X position of OSD region X.
 - **regX_posy**: Y position of OSD region X.
@@ -148,7 +148,7 @@ This document describes the fields that can be found within a configuration file
 - **regX_pad**: Padding in pixels around the text when `regX_bgopal > 0` (default: `6`).
 
 Notes:
-- If you only set `regX_text` (and omit styling fields), Divinus uses built-in defaults for
+- If you only set `regX_text` (and omit styling fields), DivinusX uses built-in defaults for
   **color/position/font/outline** so the OSD stays readable on bright backgrounds.
 
 ## JPEG section

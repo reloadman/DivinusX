@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Divinus build helper (offline, fixed toolchain list)
+# DivinusX build helper (offline, fixed toolchain list)
 # Usage:
 #   ./build.sh [PLATFORM] [debug]
 # If PLATFORM is omitted, builds all toolchains from TOOLCHAIN_PAIRS.
@@ -56,11 +56,11 @@ build_one() {
     make -C src clean CC="$cc"
     make -j "$NPROC" -C src CC="$cc" OPT="$OPT" LTO="$LTO"
 
-    [ -x "$strip_bin" ] && "$strip_bin" divinus 2>/dev/null || true
+    [ -x "$strip_bin" ] && "$strip_bin" divinusx 2>/dev/null || true
 
     mkdir -p builds
-    cp -f divinus "builds/divinus.${plat_name}"
-    echo "✅ builds/divinus.${plat_name}"
+    cp -f divinusx "builds/divinusx.${plat_name}"
+    echo "✅ builds/divinusx.${plat_name}"
 }
 
 run_platforms() {

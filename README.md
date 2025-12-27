@@ -1,7 +1,7 @@
 ![OpenIPC logo][logo]
 
-## Divinus
-**_Divinus is a new open source, multi-platform streamer_**
+## DivinusX
+**_DivinusX is a new open source, multi-platform streamer_**
 
 [![Telegram](https://openipc.org/images/telegram_button.svg)][telegram]
 
@@ -13,7 +13,7 @@ Compared to most streamer software solutions available to this day, it attaches 
 
 Since it is using runtime dynamic linking, its executable remains particularly compact and can be run on a multitude of environments, including in a tethered context (e.g. running from a temporary filesystem on read-only systems).
 
-In spite of these design choices, Divinus boasts numerous features that cater to a wide range of uses you will be able to make of it.
+In spite of these design choices, DivinusX boasts numerous features that cater to a wide range of uses you will be able to make of it.
 
 
 ### Supported hardware and features

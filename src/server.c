@@ -1293,7 +1293,7 @@ void respond_request(http_request_t *req) {
                         app_config.ir_led_pin = result;
                 } else if (EQUALS(key, "whiteled_pin") || EQUALS(key, "white_led_pin")) {
                     // Intentionally ignored: `whiteled` is a manual action and must not
-                    // mutate config (pins are configured via divinus.yaml).
+                    // mutate config (pins are configured via divinusx.yaml).
                 } else if (EQUALS(key, "irsense_pin")) {
                     short result = strtol(value, &remain, 10);
                     if (remain != value)
@@ -1416,7 +1416,7 @@ void respond_request(http_request_t *req) {
 
     // ISP orientation controls (persisted): mirror / flip (+ optional antiflicker).
     // NOTE: These settings are applied at SDK/pipeline creation time on most platforms.
-    // This endpoint persists changes to divinus.yaml; runtime application may require a process restart.
+    // This endpoint persists changes to divinusx.yaml; runtime application may require a process restart.
     if (EQUALS(req->uri, "/api/isp")) {
         bool changed = false;
         bool changed_orient = false;

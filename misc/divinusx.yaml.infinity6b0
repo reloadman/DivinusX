@@ -1,6 +1,5 @@
 system:
-  sensor_config: /etc/sensors/imx307_i2c_2l_1080p.ini
-  iq_config: /etc/sensors/iq/imx307_openipc.ini
+  sensor_config: /etc/sensors/os02g10.bin
   web_port: 8080
   web_enable_auth: false
   web_auth_user: admin
@@ -18,13 +17,13 @@ night_mode:
   grayscale: true
   ir_sensor_pin: 999
   check_interval_s: 3
-  ir_cut_pin1: 9
-  ir_cut_pin2: 8
+  ir_cut_pin1: 61
+  ir_cut_pin2: 79
   isp_iso_low: 1100
   isp_iso_hi: 1500
   isp_exptime_low: 15000
   isp_switch_lockout_s: 15
-  ir_led_pin: 16
+  ir_led_pin: 4
   white_led_pin: 4
   pin_switch_delay_us: 150
   adc_device: ""
@@ -64,7 +63,7 @@ audio:
   codec: AAC
   bitrate: 48
   gain: 90
-  srate: 44100
+  srate: 48000
   channels: 1
   aac_quantqual: 40
   aac_bandwidth: 10000
@@ -94,7 +93,7 @@ mp4:
   bitrate: 2000
 osd:
   enable: true
-  isp_debug: false
+  isp_debug: true
   reg0_text: $t
   reg0_font: InterTime
   reg0_opal: 255
@@ -125,3 +124,4 @@ http_post:
   height: 0
   interval: 0
   qfactor: 0
+

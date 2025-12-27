@@ -1,7 +1,7 @@
 #ifndef __SPEEX_TYPES_H__
 #define __SPEEX_TYPES_H__
 
-// Generated for Divinus vendored SpeexDSP build (no autotools).
+// Generated for DivinusX vendored SpeexDSP build (no autotools).
 //
 // Upstream generates `include/speex/speexdsp_config_types.h` from
 // `include/speex/speexdsp_config_types.h.in`, but that generated header is

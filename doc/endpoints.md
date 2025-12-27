@@ -1,6 +1,6 @@
 # API Endpoints Reference
 
-This document describes the REST API endpoints available in Divinus' web server.
+This document describes the REST API endpoints available in DivinusX' web server.
 
 ## General Response Format
 

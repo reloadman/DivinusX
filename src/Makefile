@@ -63,7 +63,8 @@ SPEEXDSP_SRC = \
 	3dparty/speexdsp/libspeexdsp/kiss_fft.c \
 	3dparty/speexdsp/libspeexdsp/kiss_fftr.c
 
-OBJ = ../divinus
+APP_NAME ?= divinusx
+OBJ = ../$(APP_NAME)
 INCLUDES = -I../3dparty -I../3dparty/metalang99/include -I../3dparty/smolrtsp/include -I../3dparty/smolrtsp-libevent/include -I../3dparty/faac/include -I../3dparty/faac/libfaac -I../3dparty/speexdsp/include -I../3dparty/speexdsp/libspeexdsp -I../3dparty/libfyaml/include
 
 # libfyaml internal includes (required to build vendored sources).
@@ -207,8 +208,11 @@ endif
 FAST_SRCPATTERNS := ../%/speex/% ../%/speexdsp/%
 COPT_FOR = $(if $(filter $(FAST_SRCPATTERNS),$(1)),$(FASTOPT_C),$(OPT_C))
 
-.PHONY: clean distclean faac-clean libfyaml-clean speex-clean smol-clean libevent-clean divinus
-divinus: $(OBJ)
+.PHONY: clean distclean faac-clean libfyaml-clean speex-clean smol-clean libevent-clean $(APP_NAME)
+
+.DEFAULT_GOAL := $(APP_NAME)
+
+$(APP_NAME): $(OBJ)
 
 CPPFLAGS += -DDIVINUS_WITH_SPEEXDSP
 
