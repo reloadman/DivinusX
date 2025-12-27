@@ -1,4 +1,4 @@
-# DivinusX fork — technical changelog (for upstream developers)
+# DivinusX fork — technical changelog
 
 ## Summary of major functional changes
 
