@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" width="900" height="220">
+  <defs>
+    <style><![CDATA[
+      .t{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Cantarell,"Noto Sans",Arial,sans-serif;}
+    ]]></style>
+  </defs>
+  <text x="0" y="160" class="t" font-size="160" font-weight="800" fill="#0B1F33">divinus<tspan fill="#1EA7FF">x</tspan></text>
+</svg>

@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 240" width="900" height="240">
+  <defs>
+    <style><![CDATA[
+      .t{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Cantarell,"Noto Sans",Arial,sans-serif;}
+    ]]></style>
+  </defs>
+
+  <!-- icon (left) -->
+  <g transform="translate(40,30)" opacity="0.78">
+    <rect x="44" y="44" width="144" height="144" rx="28" fill="none" stroke="#FFFFFF" stroke-width="10"/>
+    <rect x="64" y="64" width="104" height="104" rx="18" fill="none" stroke="#8AD9FF" stroke-width="6"/>
+    <!-- pins -->
+    <rect x="66" y="24" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="82" y="24" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="98" y="24" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="114" y="24" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="130" y="24" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="146" y="24" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="162" y="24" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="178" y="24" width="8" height="22" rx="3" fill="#FFFFFF"/>
+    <rect x="66" y="188" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="82" y="188" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="98" y="188" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="114" y="188" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="130" y="188" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="146" y="188" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="162" y="188" width="8" height="22" rx="3" fill="#FFFFFF"/><rect x="178" y="188" width="8" height="22" rx="3" fill="#FFFFFF"/>
+    <rect x="24" y="72" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="24" y="88" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="24" y="104" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="24" y="120" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="24" y="136" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="24" y="152" width="22" height="8" rx="3" fill="#FFFFFF"/>
+    <rect x="188" y="72" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="188" y="88" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="188" y="104" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="188" y="120" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="188" y="136" width="22" height="8" rx="3" fill="#FFFFFF"/><rect x="188" y="152" width="22" height="8" rx="3" fill="#FFFFFF"/>
+    <!-- gear -->
+    <path d="M 116.00 86.00 L 124.19 74.81 L 132.07 77.20 L 132.67 91.06 L 137.21 94.79 L 150.92 92.67 L 154.80 99.93 L 145.42 110.15 L 146.00 116.00 L 157.19 124.19 L 154.80 132.07 L 140.94 132.67 L 137.21 137.21 L 139.33 150.92 L 132.07 154.80 L 121.85 145.42 L 116.00 146.00 L 107.81 157.19 L 99.93 154.80 L 99.33 140.94 L 94.79 137.21 L 81.08 139.33 L 77.20 132.07 L 86.58 121.85 L 86.00 116.00 L 74.81 107.81 L 77.20 99.93 L 91.06 99.33 L 94.79 94.79 L 92.67 81.08 L 99.93 77.20 L 110.15 86.58 Z" fill="#FFFFFF" stroke="#FFFFFF" stroke-width="3" stroke-linejoin="round"/>
+    <circle cx="116" cy="116" r="14" fill="none" stroke="#FFFFFF" stroke-width="3"/>
+  </g>
+
+  <!-- wordmark -->
+  <text x="300" y="155" class="t" font-size="120" font-weight="800" fill="#FFFFFF" opacity="0.78">
+    divinus<tspan fill="#8AD9FF">x</tspan>
+  </text>
+</svg>

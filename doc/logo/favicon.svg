@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect x="14" y="14" width="36" height="36" rx="8" fill="#2F3B47" stroke="#0B1F33" stroke-width="2.8"/>
+  <rect x="19" y="19" width="26" height="26" rx="6" fill="#1EA7FF" stroke="#0B66D6" stroke-width="2"/>
+  <!-- pins -->
+  <rect x="20" y="7" width="3" height="8" rx="1.2" fill="#8AD9FF"/><rect x="25" y="7" width="3" height="8" rx="1.2" fill="#8AD9FF"/><rect x="30" y="7" width="3" height="8" rx="1.2" fill="#8AD9FF"/><rect x="35" y="7" width="3" height="8" rx="1.2" fill="#8AD9FF"/><rect x="40" y="7" width="3" height="8" rx="1.2" fill="#8AD9FF"/>
+  <rect x="20" y="49" width="3" height="8" rx="1.2" fill="#8AD9FF"/><rect x="25" y="49" width="3" height="8" rx="1.2" fill="#8AD9FF"/><rect x="30" y="49" width="3" height="8" rx="1.2" fill="#8AD9FF"/><rect x="35" y="49" width="3" height="8" rx="1.2" fill="#8AD9FF"/><rect x="40" y="49" width="3" height="8" rx="1.2" fill="#8AD9FF"/>
+  <rect x="7" y="21" width="8" height="3" rx="1.2" fill="#8AD9FF"/><rect x="7" y="26" width="8" height="3" rx="1.2" fill="#8AD9FF"/><rect x="7" y="31" width="8" height="3" rx="1.2" fill="#8AD9FF"/><rect x="7" y="36" width="8" height="3" rx="1.2" fill="#8AD9FF"/><rect x="7" y="41" width="8" height="3" rx="1.2" fill="#8AD9FF"/>
+  <rect x="49" y="21" width="8" height="3" rx="1.2" fill="#8AD9FF"/><rect x="49" y="26" width="8" height="3" rx="1.2" fill="#8AD9FF"/><rect x="49" y="31" width="8" height="3" rx="1.2" fill="#8AD9FF"/><rect x="49" y="36" width="8" height="3" rx="1.2" fill="#8AD9FF"/><rect x="49" y="41" width="8" height="3" rx="1.2" fill="#8AD9FF"/>
+  <!-- gear -->
+  <path d="M 32.00 23.00 L 34.54 19.25 L 36.97 19.99 L 37.00 24.52 L 38.36 25.64 L 42.81 24.78 L 44.01 27.03 L 40.83 30.24 L 41.00 32.00 L 44.75 34.54 L 44.01 36.97 L 39.48 37.00 L 38.36 38.36 L 39.22 42.81 L 36.97 44.01 L 33.76 40.83 L 32.00 41.00 L 29.46 44.75 L 27.03 44.01 L 27.00 39.48 L 25.64 38.36 L 21.19 39.22 L 19.99 36.97 L 23.17 33.76 L 23.00 32.00 L 19.25 29.46 L 19.99 27.03 L 24.52 27.00 L 25.64 25.64 L 24.78 21.19 L 27.03 19.99 L 30.24 23.17 Z" fill="#FFFFFF" stroke="#0B1F33" stroke-width="2.2" stroke-linejoin="round"/>
+  <circle cx="32" cy="32" r="4.2" fill="#2F3B47" stroke="#0B1F33" stroke-width="1.6"/>
+</svg>

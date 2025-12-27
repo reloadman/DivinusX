@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">
+<defs>
+<style><![CDATA[.ink{stroke:#0B1F33;}.blue{fill:#1EA7FF;}.blue2{fill:#0B66D6;}.pin{fill:#8AD9FF;}.w{fill:#FFFFFF;}.text{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Cantarell,"Noto Sans",Arial,sans-serif;}]]></style>
+</defs>
+<rect x="78" y="38" width="8" height="20" rx="3" class="pin"/>
+<rect x="94" y="38" width="8" height="20" rx="3" class="pin"/>
+<rect x="110" y="38" width="8" height="20" rx="3" class="pin"/>
+<rect x="126" y="38" width="8" height="20" rx="3" class="pin"/>
+<rect x="142" y="38" width="8" height="20" rx="3" class="pin"/>
+<rect x="158" y="38" width="8" height="20" rx="3" class="pin"/>
+<rect x="174" y="38" width="8" height="20" rx="3" class="pin"/>
+<rect x="190" y="38" width="8" height="20" rx="3" class="pin"/>
+<rect x="78" y="198" width="8" height="20" rx="3" class="pin"/>
+<rect x="94" y="198" width="8" height="20" rx="3" class="pin"/>
+<rect x="110" y="198" width="8" height="20" rx="3" class="pin"/>
+<rect x="126" y="198" width="8" height="20" rx="3" class="pin"/>
+<rect x="142" y="198" width="8" height="20" rx="3" class="pin"/>
+<rect x="158" y="198" width="8" height="20" rx="3" class="pin"/>
+<rect x="174" y="198" width="8" height="20" rx="3" class="pin"/>
+<rect x="190" y="198" width="8" height="20" rx="3" class="pin"/>
+<rect x="38" y="84" width="20" height="8" rx="3" class="pin"/>
+<rect x="38" y="100" width="20" height="8" rx="3" class="pin"/>
+<rect x="38" y="116" width="20" height="8" rx="3" class="pin"/>
+<rect x="38" y="132" width="20" height="8" rx="3" class="pin"/>
+<rect x="38" y="148" width="20" height="8" rx="3" class="pin"/>
+<rect x="38" y="164" width="20" height="8" rx="3" class="pin"/>
+<rect x="198" y="84" width="20" height="8" rx="3" class="pin"/>
+<rect x="198" y="100" width="20" height="8" rx="3" class="pin"/>
+<rect x="198" y="116" width="20" height="8" rx="3" class="pin"/>
+<rect x="198" y="132" width="20" height="8" rx="3" class="pin"/>
+<rect x="198" y="148" width="20" height="8" rx="3" class="pin"/>
+<rect x="198" y="164" width="20" height="8" rx="3" class="pin"/>
+<rect x="56" y="56" width="144" height="144" rx="28" fill="#2F3B47" stroke="#0B1F33" stroke-width="10"/>
+<rect x="76" y="76" width="104" height="104" rx="18" fill="#1EA7FF" stroke="#0B66D6" stroke-width="6"/>
+<circle cx="38" cy="68" r="8" fill="none" stroke="#8AD9FF" stroke-width="6"/>
+<circle cx="218" cy="68" r="8" fill="none" stroke="#8AD9FF" stroke-width="6"/>
+<circle cx="38" cy="188" r="8" fill="none" stroke="#8AD9FF" stroke-width="6"/>
+<circle cx="218" cy="188" r="8" fill="none" stroke="#8AD9FF" stroke-width="6"/>
+<path d="M 128.00 98.00 L 136.19 86.81 L 144.07 89.20 L 144.67 103.06 L 149.21 106.79 L 162.92 104.67 L 166.80 111.93 L 157.42 122.15 L 158.00 128.00 L 169.19 136.19 L 166.80 144.07 L 152.94 144.67 L 149.21 149.21 L 151.33 162.92 L 144.07 166.80 L 133.85 157.42 L 128.00 158.00 L 119.81 169.19 L 111.93 166.80 L 111.33 152.94 L 106.79 149.21 L 93.08 151.33 L 89.20 144.07 L 98.58 133.85 L 98.00 128.00 L 86.81 119.81 L 89.20 111.93 L 103.06 111.33 L 106.79 106.79 L 104.67 93.08 L 111.93 89.20 L 122.15 98.58 Z" fill="#FFFFFF" stroke="#0B1F33" stroke-width="6" stroke-linejoin="round"/>
+<circle cx="128" cy="128" r="14" fill="#2F3B47" stroke="#0B1F33" stroke-width="4"/>
+</svg>

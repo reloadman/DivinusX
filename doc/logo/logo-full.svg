@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 700">
+<defs><style><![CDATA[.t{font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,Ubuntu,Cantarell,"Noto Sans",Arial,sans-serif;}]]></style></defs>
+<g transform="translate(0,60) scale(2.0)">
+<rect x="78" y="14" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="94" y="14" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="110" y="14" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="126" y="14" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="142" y="14" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="158" y="14" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="174" y="14" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="190" y="14" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="78" y="174" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="94" y="174" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="110" y="174" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="126" y="174" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="142" y="174" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="158" y="174" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="174" y="174" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="190" y="174" width="8" height="20" rx="3" fill="#8AD9FF"/>
+<rect x="38" y="60" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="38" y="76" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="38" y="92" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="38" y="108" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="38" y="124" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="38" y="140" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="198" y="60" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="198" y="76" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="198" y="92" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="198" y="108" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="198" y="124" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="198" y="140" width="20" height="8" rx="3" fill="#8AD9FF"/>
+<rect x="56" y="32" width="144" height="144" rx="28" fill="#2F3B47" stroke="#0B1F33" stroke-width="10"/>
+<rect x="76" y="52" width="104" height="104" rx="18" fill="#1EA7FF" stroke="#0B66D6" stroke-width="6"/>
+<circle cx="38" cy="44" r="8" fill="none" stroke="#8AD9FF" stroke-width="6"/>
+<circle cx="218" cy="44" r="8" fill="none" stroke="#8AD9FF" stroke-width="6"/>
+<circle cx="38" cy="164" r="8" fill="none" stroke="#8AD9FF" stroke-width="6"/>
+<circle cx="218" cy="164" r="8" fill="none" stroke="#8AD9FF" stroke-width="6"/>
+<path d="M 128.00 74.00 L 136.19 62.81 L 144.07 65.20 L 144.67 79.06 L 149.21 82.79 L 162.92 80.67 L 166.80 87.93 L 157.42 98.15 L 158.00 104.00 L 169.19 112.19 L 166.80 120.07 L 152.94 120.67 L 149.21 125.21 L 151.33 138.92 L 144.07 142.80 L 133.85 133.42 L 128.00 134.00 L 119.81 145.19 L 111.93 142.80 L 111.33 128.94 L 106.79 125.21 L 93.08 127.33 L 89.20 120.07 L 98.58 109.85 L 98.00 104.00 L 86.81 95.81 L 89.20 87.93 L 103.06 87.33 L 106.79 82.79 L 104.67 69.08 L 111.93 65.20 L 122.15 74.58 Z" fill="#FFFFFF" stroke="#0B1F33" stroke-width="6" stroke-linejoin="round"/>
+<circle cx="128" cy="104" r="14" fill="#2F3B47" stroke="#0B1F33" stroke-width="4"/>
+</g>
+<text x="256" y="620" text-anchor="middle" class="t" font-size="110" font-weight="800" fill="#0B1F33">Divinus<tspan fill="#1EA7FF">X</tspan></text>
+</svg>
