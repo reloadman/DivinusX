@@ -149,17 +149,7 @@ to embed credentials in the RTSP URL (`src/onvif.c`). However:
 
 - In the **smolrtsp integration** (`src/rtsp_smol.c`) there is **no code path that enforces RTSP auth**
   (no parsing of `Authorization`, no `401`/`WWW-Authenticate` generation).
-- The legacy RTSP implementation (`src/rtsp/*`) was extended with AAC helpers (see below), but it is no longer
-  the server started from `main.c`.
 
-If upstream expects RTSP auth parity, this is a **behavioral regression** relative to upstream’s legacy RTSP auth feature.
-
-### Legacy RTSP module updates (still present in tree)
-
-Even though the runtime server is now `smolrtsp`, the legacy RTSP headers/sources were modified:
-
-- `src/rtsp/rtsp_server.h`: new `rtp_send_aac()` declaration.
-- `src/rtsp/rtp.c`: implemented AAC payloadization (`pt=97`) with AU headers.
 
 ## Audio subsystem changes
 
