@@ -1,6 +1,7 @@
 #if defined(__ARM_PCS_VFP)
 
 #include "m6_hal.h"
+#include "../osd.h"
 
 m6_aud_impl  m6_aud;
 m6_isp_impl  m6_isp;
@@ -191,7 +192,8 @@ int m6_channel_create(char index, short width, short height, char jpeg)
 
 int m6_channel_grayscale(char enable)
 {
-    return m6_isp.fnSetColorToGray(_m6_isp_dev, 0, &enable);
+    int v = enable ? 1 : 0;
+    return m6_isp.fnSetColorToGray(_m6_isp_dev, 0, &v);
 }
 
 int m6_channel_unbind(char index)
@@ -213,9 +215,9 @@ int m6_channel_unbind(char index)
     return EXIT_SUCCESS;    
 }
 
-int m6_config_load(char *path)
+int m6_config_load(char *path, unsigned int user_key)
 {
-    return m6_isp.fnLoadChannelConfig(_m6_isp_dev, _m6_isp_chn, path, 1234);
+    return m6_isp.fnLoadChannelConfig(_m6_isp_dev, _m6_isp_chn, path, user_key);
 }
 
 int m6_get_isp_exposure_info(unsigned int *iso, unsigned int *exp_time,

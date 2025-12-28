@@ -30,7 +30,7 @@ int m6_channel_create(char index, short width, short height, char jpeg);
 int m6_channel_grayscale(char enable);
 int m6_channel_unbind(char index);
 
-int m6_config_load(char *path);
+int m6_config_load(char *path, unsigned int user_key);
 
 int m6_pipeline_create(char sensor, short width, short height, char mirror, char flip, char framerate);
 void m6_pipeline_destroy(void);

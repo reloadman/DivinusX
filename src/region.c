@@ -804,7 +804,11 @@ void *region_thread(void) {
 #endif
                         }
                         if (rgn_rc) {
-                            HAL_ERROR("region", "reg%d attach/create failed (rc=%d) plat=%d\n",
+                            // Do NOT kill the region thread on transient platform/SDK errors.
+                            // On embedded targets the RGN subsystem can temporarily fail during
+                            // startup/reconfig; we want to retry on next update tick.
+                            osd_attached[(unsigned char)id] = false;
+                            HAL_WARNING("region", "reg%d attach/create failed (rc=%d) plat=%d\n",
                                 id, rgn_rc, (int)plat);
                         } else {
                             osd_attached[(unsigned char)id] = true;
@@ -859,7 +863,8 @@ void *region_thread(void) {
 
                     if (rgn_rc) {
                         osd_attached[(unsigned char)id] = false;
-                        HAL_ERROR("region", "reg%d set failed (rc=%d) plat=%d\n",
+                        // Same reasoning as above: log and retry later, don't terminate OSD thread.
+                        HAL_WARNING("region", "reg%d set failed (rc=%d) plat=%d\n",
                             id, rgn_rc, (int)plat);
                     }
                     if (send_bmp_alloc && send_bmp.data && send_bmp.data != bitmap.data)

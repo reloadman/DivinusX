@@ -164,10 +164,19 @@ static void drop_client(SmolRtspClient *c) {
         c->audio_rtp = NULL;
     }
     if (c->bev) {
+        // Make sure no further callbacks will run with this bev (and its ctx).
+        bufferevent_disable(c->bev, EV_READ | EV_WRITE);
+        bufferevent_setcb(c->bev, NULL, NULL, NULL, NULL);
         bufferevent_free(c->bev);
         c->bev = NULL;
     }
-    // Keep dispatch_ctx allocated to avoid use-after-free in libevent callbacks.
+    // Free dispatch_ctx only at final cleanup time (drop_client is always called
+    // from a deferred path / after callbacks are disabled), to avoid UAF inside
+    // libevent/SmolRTSP request parsing callbacks.
+    if (c->dispatch_ctx) {
+        smolrtsp_libevent_ctx_free(c->dispatch_ctx);
+        c->dispatch_ctx = NULL;
+    }
     c->playing = 0;
     c->alive = 0;
     c->closing = 0;

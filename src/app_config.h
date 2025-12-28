@@ -20,6 +20,9 @@ struct AppConfig {
     char sensor_config[128];
     // Optional ISP/IQ profile INI (platform-specific; used by hisi/v4 goke as "scene_auto" IQ)
     char iq_config[256];
+    // Sigmastar MI_ISP_API_CmdLoadBinFile "user_key" to validate/decrypt IQ bin files.
+    // Default matches historical behavior (1234).
+    unsigned int iqfile_user_key;
     unsigned short web_port;
     char web_bind[64];
     char web_whitelist[4][256];

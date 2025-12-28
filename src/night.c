@@ -152,17 +152,35 @@ void night_mode(bool enable) {
 
     HAL_INFO("night", "Changing mode to %s\n", enable ? "NIGHT" : "DAY");
     // Always switch IR hardware when entering/leaving night.
-    // Grayscale is applied only if configured at the moment of transition.
     night_ircut(!enable);
     night_irled(enable);
-    if (enable) night_grayscale(night_should_grayscale());
-    else night_grayscale(false);
 
     // Re-apply IQ so that [static_*] vs [ir_static_*] sections take effect immediately.
     // Without this, AE/DRC/etc may remain from the previous mode until the next restart.
     int r = media_reload_iq();
     if (r != 0)
         HAL_WARNING("night", "IQ reload failed with %#x (continuing)\n", r);
+
+    // Apply grayscale AFTER IQ reload so that any IQ-set saturation/chroma parameters
+    // do not overwrite our requested grayscale output.
+    if (enable) night_grayscale(night_should_grayscale());
+    else night_grayscale(false);
+
+    // SigmaStar (i6/i6c/m6): switching IR-cut/IR LED can trigger an internal ISP re-init
+    // that reloads IQ shortly after the transition (seen as "ae_init" + "Load iq file" logs).
+    // In that window MI_ISP_IQ_Set* calls can fail (often returning 0x6), and grayscale
+    // won't stick. Re-apply grayscale a few times with a short delay as best-effort.
+#if defined(__ARM_PCS_VFP)
+    if (enable && night_should_grayscale() &&
+        (plat == HAL_PLATFORM_I6 || plat == HAL_PLATFORM_I6C || plat == HAL_PLATFORM_M6)) {
+        for (int i = 0; i < 3 && keepRunning; i++) {
+            usleep(250 * 1000);
+            // Only re-apply if we're still in IR mode.
+            if (!night_mode_on()) break;
+            night_grayscale(true);
+        }
+    }
+#endif
     pthread_mutex_unlock(&night_mode_mtx);
 }
 

@@ -1794,17 +1794,24 @@ int start_sdk(void) {
         pthread_attr_destroy(&thread_attr);
     }
 
-    if (!access(app_config.sensor_config, F_OK) && !sleep(1))
+    if (!access(app_config.sensor_config, F_OK) && !sleep(1)) {
+        int sensor_ret = 0;
         switch (plat) {
 #if defined(__ARM_PCS_VFP)
-            case HAL_PLATFORM_I3:  i3_config_load(app_config.sensor_config); break;
-            case HAL_PLATFORM_I6:  i6_config_load(app_config.sensor_config); break;
-            case HAL_PLATFORM_I6C: i6c_config_load(app_config.sensor_config); break;
-            case HAL_PLATFORM_M6:  m6_config_load(app_config.sensor_config); break;
+            case HAL_PLATFORM_I3:  sensor_ret = i3_config_load(app_config.sensor_config, app_config.iqfile_user_key); break;
+            case HAL_PLATFORM_I6:  sensor_ret = i6_config_load(app_config.sensor_config, app_config.iqfile_user_key); break;
+            case HAL_PLATFORM_I6C: sensor_ret = i6c_config_load(app_config.sensor_config, app_config.iqfile_user_key); break;
+            case HAL_PLATFORM_M6:  sensor_ret = m6_config_load(app_config.sensor_config, app_config.iqfile_user_key); break;
 #elif defined(__mips__)
-            case HAL_PLATFORM_T31: t31_config_load(app_config.sensor_config); break;
+            case HAL_PLATFORM_T31: sensor_ret = t31_config_load(app_config.sensor_config); break;
 #endif
         }
+        if (sensor_ret)
+            HAL_WARNING("media", "Sensor config '%s' apply failed with %#x (%s)\n",
+                app_config.sensor_config, sensor_ret, errstr(sensor_ret));
+        else
+            HAL_INFO("media", "Applied sensor config '%s'\n", app_config.sensor_config);
+    }
 
 #if defined(__ARM_PCS_VFP)
     if (!EMPTY(app_config.iq_config) &&
@@ -1812,9 +1819,9 @@ int start_sdk(void) {
         if (!access(app_config.iq_config, F_OK)) {
             int iq_ret = 0;
             switch (plat) {
-                case HAL_PLATFORM_I6:  iq_ret = i6_config_load(app_config.iq_config); break;
-                case HAL_PLATFORM_I6C: iq_ret = i6c_config_load(app_config.iq_config); break;
-                case HAL_PLATFORM_M6:  iq_ret = m6_config_load(app_config.iq_config); break;
+                case HAL_PLATFORM_I6:  iq_ret = i6_config_load(app_config.iq_config, app_config.iqfile_user_key); break;
+                case HAL_PLATFORM_I6C: iq_ret = i6c_config_load(app_config.iq_config, app_config.iqfile_user_key); break;
+                case HAL_PLATFORM_M6:  iq_ret = m6_config_load(app_config.iq_config, app_config.iqfile_user_key); break;
                 default: break;
             }
             if (iq_ret)

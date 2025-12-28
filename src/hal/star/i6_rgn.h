@@ -20,6 +20,15 @@ typedef enum {
     I6_RGN_TYPE_END
 } i6_rgn_type;
 
+// MI_RGN uses a different module id enum than MI_SYS.
+// Matches MI_RGN_ModId_e from SigmaStar SDK headers (mi_rgn_datatype.h).
+typedef enum {
+    I6_RGN_MODID_VPE = 0,
+    I6_RGN_MODID_DIVP,
+    I6_RGN_MODID_LDC,
+    I6_RGN_MODID_END
+} i6_rgn_modid;
+
 typedef struct {
     unsigned int width;
     unsigned int height;
@@ -37,27 +46,49 @@ typedef struct {
     i6_rgn_size size;
 } i6_rgn_cnf;
 
+// Mirrors MI_RGN_ChnPort_t from SigmaStar SDK headers (mi_rgn_datatype.h).
+typedef struct {
+    int modId;          // i6_rgn_modid
+    int devId;
+    int chnId;
+    int outputPortId;
+} i6_rgn_chnport;
+
 typedef struct {
     unsigned int layer;
     i6_rgn_size size;
     unsigned int color;
 } i6_rgn_cov;
 
+// Mirrors MI_RGN_OsdInvertColorAttr_t (layout important).
 typedef struct {
-    int invColOn;
-    int lowThanThresh;
-    unsigned int lumThresh;
+    unsigned char enable;
+    int mode;                // 0=above threshold, 1=below threshold
+    unsigned short lumaThresh;
     unsigned short divWidth;
     unsigned short divHeight;
 } i6_rgn_inv;
 
+// Mirrors MI_RGN_OsdAlphaAttr_t (layout important).
+typedef struct {
+    unsigned char bgAlpha;
+    unsigned char fgAlpha;
+} i6_rgn_argb1555_alpha;
+
+typedef union {
+    i6_rgn_argb1555_alpha argb1555;
+    unsigned char constantAlpha;
+} i6_rgn_alpha_para;
+
+typedef struct {
+    int mode; // 0=pixel alpha, 1=constant alpha
+    i6_rgn_alpha_para para;
+    unsigned short _pad; // keep 4-byte alignment similar to SDK
+} i6_rgn_alpha_attr;
+
 typedef struct {
     unsigned int layer;
-    int constAlphaOn;
-    union {
-        unsigned char bgFgAlpha[2];
-        unsigned char constAlpha[2];
-    };
+    i6_rgn_alpha_attr alpha;
     i6_rgn_inv invert;
 } i6_rgn_osd;
 
@@ -67,7 +98,8 @@ typedef struct {
 } i6_rgn_pnt;
 
 typedef struct {
-    int show;
+    unsigned char show;
+    unsigned char _pad0[3];
     i6_rgn_pnt point;
     union {
         i6_rgn_cov cover;
@@ -96,10 +128,10 @@ typedef struct {
     int (*fnDestroyRegion)(unsigned int handle);
     int (*fnGetRegionConfig)(unsigned int handle, i6_rgn_cnf *config);
 
-    int (*fnAttachChannel)(unsigned int handle, i6_sys_bind *dest, i6_rgn_chn *config);
-    int (*fnDetachChannel)(unsigned int handle, i6_sys_bind *dest);
-    int (*fnGetChannelConfig)(unsigned int handle, i6_sys_bind *dest, i6_rgn_chn *config);
-    int (*fnSetChannelConfig)(unsigned int handle, i6_sys_bind *dest, i6_rgn_chn *config);
+    int (*fnAttachChannel)(unsigned int handle, i6_rgn_chnport *dest, i6_rgn_chn *config);
+    int (*fnDetachChannel)(unsigned int handle, i6_rgn_chnport *dest);
+    int (*fnGetChannelConfig)(unsigned int handle, i6_rgn_chnport *dest, i6_rgn_chn *config);
+    int (*fnSetChannelConfig)(unsigned int handle, i6_rgn_chnport *dest, i6_rgn_chn *config);
 
     int (*fnSetBitmap)(unsigned int handle, i6_rgn_bmp *bitmap);
 } i6_rgn_impl;
@@ -128,19 +160,19 @@ static int i6_rgn_load(i6_rgn_impl *rgn_lib) {
         hal_symbol_load("i6_rgn", rgn_lib->handle, "MI_RGN_GetAttr")))
         return EXIT_FAILURE;
 
-    if (!(rgn_lib->fnAttachChannel = (int(*)(unsigned int handle, i6_sys_bind *dest, i6_rgn_chn *config))
+    if (!(rgn_lib->fnAttachChannel = (int(*)(unsigned int handle, i6_rgn_chnport *dest, i6_rgn_chn *config))
         hal_symbol_load("i6_rgn", rgn_lib->handle, "MI_RGN_AttachToChn")))
         return EXIT_FAILURE;
 
-    if (!(rgn_lib->fnDetachChannel = (int(*)(unsigned int handle, i6_sys_bind *dest))
+    if (!(rgn_lib->fnDetachChannel = (int(*)(unsigned int handle, i6_rgn_chnport *dest))
         hal_symbol_load("i6_rgn", rgn_lib->handle, "MI_RGN_DetachFromChn")))
         return EXIT_FAILURE;
 
-    if (!(rgn_lib->fnGetChannelConfig = (int(*)(unsigned int handle, i6_sys_bind *dest, i6_rgn_chn *config))
+    if (!(rgn_lib->fnGetChannelConfig = (int(*)(unsigned int handle, i6_rgn_chnport *dest, i6_rgn_chn *config))
         hal_symbol_load("i6_rgn", rgn_lib->handle, "MI_RGN_GetDisplayAttr")))
         return EXIT_FAILURE;
 
-    if (!(rgn_lib->fnSetChannelConfig = (int(*)(unsigned int handle, i6_sys_bind *dest, i6_rgn_chn *config))
+    if (!(rgn_lib->fnSetChannelConfig = (int(*)(unsigned int handle, i6_rgn_chnport *dest, i6_rgn_chn *config))
         hal_symbol_load("i6_rgn", rgn_lib->handle, "MI_RGN_SetDisplayAttr")))
         return EXIT_FAILURE;
 

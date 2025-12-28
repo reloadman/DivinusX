@@ -189,9 +189,9 @@ int i3_channel_unbind(char index)
     return EXIT_SUCCESS; 
 }*/
 
-int i3_config_load(char *path)
+int i3_config_load(char *path, unsigned int user_key)
 {
-    return i3_isp.fnLoadChannelConfig(_i3_isp_chn, path, 1234);
+    return i3_isp.fnLoadChannelConfig(_i3_isp_chn, path, user_key);
 }
 
 /*int i3_pipeline_create(char sensor, short width, short height, char framerate)

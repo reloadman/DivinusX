@@ -49,7 +49,8 @@ typedef struct {
     int (*fnEnablePort)(int device, int channel, int port);
     int (*fnSetPortConfig)(int device, int channel, int port, i6c_isp_port *config);
 
-    int (*fnSetColorToGray)(int device, int channel, char *enable);
+    // ABI-tolerant pointer for MI_ISP_IQ_SetColorToGray(): see i6_isp.h notes.
+    int (*fnSetColorToGray)(int device, int channel, void *enable_or_struct);
 } i6c_isp_impl;
 
 static int i6c_isp_load(i6c_isp_impl *isp_lib) {
@@ -106,7 +107,7 @@ static int i6c_isp_load(i6c_isp_impl *isp_lib) {
         hal_symbol_load("i6c_isp", isp_lib->handle, "MI_ISP_SetOutputPortParam")))
         return EXIT_FAILURE;
 
-    if (!(isp_lib->fnSetColorToGray = (int(*)(int device, int channel, char *enable))
+    if (!(isp_lib->fnSetColorToGray = (int(*)(int device, int channel, void *enable_or_struct))
         hal_symbol_load("i6c_isp", isp_lib->handle, "MI_ISP_IQ_SetColorToGray")))
         return EXIT_FAILURE;
 

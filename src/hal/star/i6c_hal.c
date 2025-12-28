@@ -1,6 +1,7 @@
 #if defined(__ARM_PCS_VFP)
 
 #include "i6c_hal.h"
+#include "../osd.h"
 
 i6c_aud_impl  i6c_aud;
 i6c_isp_impl  i6c_isp;
@@ -198,7 +199,8 @@ int i6c_channel_create(char index, short width, short height, char jpeg)
 
 int i6c_channel_grayscale(char enable)
 {
-    return i6c_isp.fnSetColorToGray(_i6c_isp_dev, 0, &enable);
+    int v = enable ? 1 : 0;
+    return i6c_isp.fnSetColorToGray(_i6c_isp_dev, 0, &v);
 }
 
 int i6c_channel_unbind(char index)
@@ -220,9 +222,9 @@ int i6c_channel_unbind(char index)
     return EXIT_SUCCESS;
 }
 
-int i6c_config_load(char *path)
+int i6c_config_load(char *path, unsigned int user_key)
 {
-    return i6c_isp.fnLoadChannelConfig(_i6c_isp_dev, _i6c_isp_chn, path, 1234);
+    return i6c_isp.fnLoadChannelConfig(_i6c_isp_dev, _i6c_isp_chn, path, user_key);
 }
 
 int i6c_get_isp_exposure_info(unsigned int *iso, unsigned int *exp_time,

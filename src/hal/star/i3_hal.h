@@ -31,7 +31,7 @@ int i3_channel_create(char index, short width, short height, char mirror, char f
 int i3_channel_grayscale(char enable);
 int i3_channel_unbind(char index);*/
 
-int i3_config_load(char *path);
+int i3_config_load(char *path, unsigned int user_key);
 
 /*int i3_pipeline_create(char sensor, short width, short height, char framerate);
 void i3_pipeline_destroy(void);

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "tools.h"
 #include "types.h"
 
@@ -36,8 +38,6 @@
 #ifdef __UCLIBC__
 extern int asprintf(char **restrict strp, const char *restrict fmt, ...);
 #endif
-
-extern int sysinfo (struct sysinfo *__info);
 
 extern void *aud_thread;
 extern void *isp_thread;

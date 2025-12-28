@@ -1,6 +1,16 @@
 #if defined(__ARM_PCS_VFP)
 
 #include "i6_hal.h"
+#include <stdint.h>
+
+static inline void i6_write_u32_le(void *p, unsigned int v) {
+    // Works for typical little-endian ARM targets; safe enough for our use (values 0/1).
+    unsigned char *b = (unsigned char *)p;
+    b[0] = (unsigned char)(v & 0xffu);
+    b[1] = (unsigned char)((v >> 8) & 0xffu);
+    b[2] = (unsigned char)((v >> 16) & 0xffu);
+    b[3] = (unsigned char)((v >> 24) & 0xffu);
+}
 
 i6_aud_impl  i6_aud;
 i6_isp_impl  i6_isp;
@@ -185,7 +195,43 @@ int i6_channel_create(char index, short width, short height, char jpeg)
 
 int i6_channel_grayscale(char enable)
 {
-    return i6_isp.fnSetColorToGray(0, &enable);
+    unsigned int v = enable ? 1u : 0u;
+    int r_gray = i6_isp.fnSetColorToGray(0, &v);
+
+    // Fallback: some SigmaStar SDK branches don't neutralize chroma via ColorToGray alone.
+    // If saturation IQ APIs are present, force saturation to 0 in MANUAL mode when enabling
+    // grayscale, and restore previous saturation when disabling.
+    static int have_sat_backup = 0;
+    static unsigned char sat_backup[I6_IQ_SAT_BUF_SZ];
+
+    int r_sat = 0;
+    if (i6_isp.fnSetSaturation) {
+        if (enable) {
+            if (!have_sat_backup && i6_isp.fnGetSaturation) {
+                memset(sat_backup, 0, sizeof(sat_backup));
+                if (i6_isp.fnGetSaturation(0, sat_backup) == 0)
+                    have_sat_backup = 1;
+            }
+            unsigned char sat[I6_IQ_SAT_BUF_SZ];
+            if (have_sat_backup) memcpy(sat, sat_backup, sizeof(sat));
+            else memset(sat, 0, sizeof(sat));
+
+            // bEnable=TRUE, enOpType=MANUAL
+            i6_write_u32_le(&sat[I6_IQ_SAT_OFF_BENABLE], I6_IQ_BOOL_TRUE);
+            i6_write_u32_le(&sat[I6_IQ_SAT_OFF_OPTYPE], I6_IQ_OP_MANUAL);
+            // Manual saturation params -> all zeros => grayscale
+            memset(&sat[I6_IQ_SAT_OFF_MANUAL_PARAM], 0, I6_IQ_SAT_MANUAL_PARAM_SZ);
+
+            r_sat = i6_isp.fnSetSaturation(0, sat);
+        } else if (have_sat_backup) {
+            r_sat = i6_isp.fnSetSaturation(0, sat_backup);
+        }
+    }
+
+    // Log once per transition: useful on devices where grayscale has no visible effect.
+    HAL_INFO("i6_isp", "grayscale=%u ColorToGray ret=%#x Saturation ret=%#x\n", v, r_gray, r_sat);
+
+    return (r_gray != 0) ? r_gray : r_sat;
 }
 
 int i6_channel_unbind(char index)
@@ -210,9 +256,37 @@ int i6_channel_unbind(char index)
     return EXIT_SUCCESS; 
 }
 
-int i6_config_load(char *path)
+int i6_config_load(char *path, unsigned int user_key)
 {
-    return i6_isp.fnLoadChannelConfig(_i6_isp_chn, path, 1234);
+    int ret = i6_isp.fnLoadChannelConfig(_i6_isp_chn, path, user_key);
+
+    // Some SDKs expose an alternative API loader. Try it before legacy cmd-bin fallback.
+    if (ret != EXIT_SUCCESS && i6_isp.fnLoadChannelConfigAlgoApi) {
+        HAL_WARNING("i6_isp",
+            "API IQ load failed (%#x), retrying ALGO_API loader for '%s'\n",
+            ret, path ? path : "(null)");
+        int ret2 = i6_isp.fnLoadChannelConfigAlgoApi(_i6_isp_chn, path, user_key);
+        if (ret2 == EXIT_SUCCESS) {
+            HAL_INFO("i6_isp", "ALGO_API IQ load succeeded for '%s'\n", path ? path : "(null)");
+            return EXIT_SUCCESS;
+        }
+        HAL_WARNING("i6_isp", "ALGO_API IQ load also failed (%#x)\n", ret2);
+    }
+
+    if (ret != EXIT_SUCCESS && i6_isp.fnLoadChannelConfigLegacy) {
+        HAL_WARNING("i6_isp",
+            "API IQ load failed (%#x), retrying legacy cmd-bin loader for '%s'\n",
+            ret, path ? path : "(null)");
+        int ret2 = i6_isp.fnLoadChannelConfigLegacy(_i6_isp_chn, path, user_key);
+        if (ret2 == EXIT_SUCCESS) {
+            HAL_INFO("i6_isp", "Legacy cmd-bin IQ load succeeded (%s) for '%s'\n",
+                i6_isp.fnLoadChannelConfigLegacySym ? i6_isp.fnLoadChannelConfigLegacySym : "unknown",
+                path ? path : "(null)");
+            return EXIT_SUCCESS;
+        }
+        HAL_WARNING("i6_isp", "Legacy cmd-bin IQ load also failed (%#x)\n", ret2);
+    }
+    return ret;
 }
 
 int i6_pipeline_create(char sensor, short width, short height, char mirror, char flip, char framerate)
@@ -394,11 +468,9 @@ int i6_region_create(char handle, hal_rect rect, short opacity)
 int i6_region_create_ex(char handle, hal_rect rect, short fg_opacity, short bg_opacity)
 {
     int ret;
-
-    // NOTE: This follows the original (working) SigmaStar i6 RGN attach scheme:
-    // - use handle as-is (no +1)
-    // - attach to module=0 with device/channel being VPE, and port selecting output stream
-    i6_sys_bind dest = { .module = 0, .device = _i6_vpe_dev, .channel = _i6_vpe_chn };
+    // Working i6 scheme (per divinus_osd): attach to module=0 (VPE),
+    // select output stream via dest.port, and use handle as-is (no +1).
+    i6_rgn_chnport dest = { .modId = I6_RGN_MODID_VPE, .devId = _i6_vpe_dev, .chnId = _i6_vpe_chn };
     i6_rgn_cnf region, regionCurr;
     i6_rgn_chn attrib, attribCurr;
 
@@ -418,7 +490,7 @@ int i6_region_create_ex(char handle, hal_rect rect, short fg_opacity, short bg_o
             "region %d...\n", handle);
         for (char i = 0; i < I6_VENC_CHN_NUM; i++) {
             if (!i6_state[i].enable) continue;
-            dest.port = i;
+            dest.outputPortId = i;
             i6_rgn.fnDetachChannel(handle, &dest);
         }
         i6_rgn.fnDestroyRegion(handle);
@@ -429,13 +501,15 @@ int i6_region_create_ex(char handle, hal_rect rect, short fg_opacity, short bg_o
     if (i6_rgn.fnGetChannelConfig(handle, &dest, &attribCurr))
         HAL_INFO("i6_rgn", "Attaching region %d...\n", handle);
     else if (attribCurr.point.x != rect.x || attribCurr.point.y != rect.y ||
-        attribCurr.osd.bgFgAlpha[0] != bg_opacity ||
-        attribCurr.osd.bgFgAlpha[1] != fg_opacity) {
+        // Compare current alpha state (ARGB1555 pixel alpha mode).
+        attribCurr.osd.alpha.mode != 0 ||
+        attribCurr.osd.alpha.para.argb1555.bgAlpha != (unsigned char)bg_opacity ||
+        attribCurr.osd.alpha.para.argb1555.fgAlpha != (unsigned char)fg_opacity) {
         HAL_INFO("i6_rgn", "Parameters are different, reattaching "
             "region %d...\n", handle);
         for (char i = 0; i < I6_VENC_CHN_NUM; i++) {
             if (!i6_state[i].enable) continue;
-            dest.port = i;
+            dest.outputPortId = i;
             i6_rgn.fnDetachChannel(handle, &dest);
         }
     }
@@ -445,23 +519,36 @@ int i6_region_create_ex(char handle, hal_rect rect, short fg_opacity, short bg_o
     attrib.point.x = rect.x;
     attrib.point.y = rect.y;
     attrib.osd.layer = 0;
-    attrib.osd.constAlphaOn = 0;
-    attrib.osd.bgFgAlpha[0] = (unsigned char)bg_opacity;
-    attrib.osd.bgFgAlpha[1] = (unsigned char)fg_opacity;
+    // MI_RGN_OsdAlphaAttr_t:
+    // Use pixel-alpha mode with separate BG/FG alphas for ARGB1555.
+    attrib.osd.alpha.mode = 0; // E_MI_RGN_PIXEL_ALPHA
+    attrib.osd.alpha.para.argb1555.bgAlpha = (unsigned char)bg_opacity;
+    attrib.osd.alpha.para.argb1555.fgAlpha = (unsigned char)fg_opacity;
+    // Color invert disabled.
+    attrib.osd.invert.enable = 0;
 
+    int attached = 0;
+    int last_rc = 0;
     for (char i = 0; i < I6_VENC_CHN_NUM; i++) {
         if (!i6_state[i].enable) continue;
-        dest.port = i;
+        dest.outputPortId = i;
         if (!hal_osd_is_allowed_for_channel(&i6_state[i])) {
             i6_rgn.fnDetachChannel(handle, &dest);
             continue;
         }
-        i6_rgn.fnAttachChannel(handle, &dest, &attrib);
+        int rc = i6_rgn.fnAttachChannel(handle, &dest, &attrib);
+        if (rc) {
+            last_rc = rc;
+            HAL_WARNING("i6_rgn", "Attach reg%d to VPE dev=%d chn=%d port=%d failed (rc=%#x)\n",
+                handle, dest.devId, dest.chnId, dest.outputPortId, rc);
+            continue;
+        }
+        attached = 1;
         // Best-effort: some SDK variants require explicit SetDisplayAttr after attach.
         i6_rgn.fnSetChannelConfig(handle, &dest, &attrib);
     }
 
-    return EXIT_SUCCESS;
+    return attached ? EXIT_SUCCESS : (last_rc ? last_rc : EXIT_FAILURE);
 }
 
 void i6_region_deinit(void)
@@ -471,10 +558,10 @@ void i6_region_deinit(void)
 
 void i6_region_destroy(char handle)
 {
-    i6_sys_bind dest = { .module = 0, .device = _i6_vpe_dev, .channel = _i6_vpe_chn };
+    i6_rgn_chnport dest = { .modId = I6_RGN_MODID_VPE, .devId = _i6_vpe_dev, .chnId = _i6_vpe_chn };
     for (char i = 0; i < I6_VENC_CHN_NUM; i++) {
         if (!i6_state[i].enable) continue;
-        dest.port = i;
+        dest.outputPortId = i;
         i6_rgn.fnDetachChannel(handle, &dest);
     }
     i6_rgn.fnDestroyRegion(handle);

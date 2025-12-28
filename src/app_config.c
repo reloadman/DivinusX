@@ -515,6 +515,7 @@ int save_app_config(void) {
     if (yaml_map_add_str(fyd, system, "sensor_config", app_config.sensor_config)) goto EMIT_FAIL;
     if (!EMPTY(app_config.iq_config))
         if (yaml_map_add_str(fyd, system, "iq_config", app_config.iq_config)) goto EMIT_FAIL;
+    if (yaml_map_add_scalarf(fyd, system, "iqfile_user_key", "%u", app_config.iqfile_user_key)) goto EMIT_FAIL;
     if (yaml_map_add_scalarf(fyd, system, "web_port", "%u", (unsigned int)app_config.web_port)) goto EMIT_FAIL;
     if (!EMPTY(app_config.web_bind))
         if (yaml_map_add_str(fyd, system, "web_bind", app_config.web_bind)) goto EMIT_FAIL;
@@ -848,6 +849,7 @@ enum ConfigError parse_app_config(void) {
 
     app_config.sensor_config[0] = 0;
     app_config.iq_config[0] = 0;
+    app_config.iqfile_user_key = 1234;
     app_config.audio_enable = false;
     app_config.audio_mute = false;
     // MP3 support removed; AAC-only.
@@ -900,7 +902,10 @@ enum ConfigError parse_app_config(void) {
 
     app_config.night_mode_enable = false;
     app_config.night_mode_manual = false;
-    app_config.night_mode_grayscale = false;
+    // Default grayscale behavior:
+    // - Most users expect IR night mode to produce a monochrome image (avoids purple tint).
+    // - Keep historical default for other families, but enable by default on infinity6b0.
+    app_config.night_mode_grayscale = (strcmp(family, "infinity6b0") == 0);
     app_config.ir_sensor_pin = 999;
     app_config.ir_cut_pin1 = 999;
     app_config.ir_cut_pin2 = 999;
@@ -942,6 +947,9 @@ enum ConfigError parse_app_config(void) {
     }
     // Optional per-platform ISP/IQ config (e.g. Goke/HiSilicon v4 "scene_auto" IQ ini)
     yaml_get_string(fyd, "/system/iq_config", app_config.iq_config, sizeof(app_config.iq_config));
+    err = yaml_get_uint(fyd, "/system/iqfile_user_key", 0, UINT_MAX, &app_config.iqfile_user_key);
+    if (err != CONFIG_OK && err != CONFIG_PARAM_NOT_FOUND)
+        goto RET_ERR_YAML;
 
     {
         int port = 0;
