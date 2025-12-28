@@ -260,6 +260,5 @@ Modified (selected) core files include:
 - **Core runtime**: `src/main.c`, `src/server.c`, `src/media.c`, `src/night.c`, `src/onvif.c`
 - **Config**: `src/app_config.c`, `src/app_config.h`
 - **HAL**: `src/hal/config.*`, `src/hal/support.*`, multiple SoC HAL files (notably `src/hal/hisi/v4_*`)
-- **Legacy RTSP module**: `src/rtsp/rtp.c`, `src/rtsp/rtcp.h`, `src/rtsp/rtsp.h`, `src/rtsp/rtsp_server.h`
 
 
