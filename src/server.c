@@ -1878,21 +1878,8 @@ int start_server() {
 
     server_fd = socket(AF_INET, SOCK_STREAM, 0);
 
-    {
-        pthread_attr_t thread_attr;
-        pthread_attr_init(&thread_attr);
-        size_t stacksize;
-        pthread_attr_getstacksize(&thread_attr, &stacksize);
-        size_t new_stacksize = app_config.web_server_thread_stack_size + REQSIZE;
-        if (pthread_attr_setstacksize(&thread_attr, new_stacksize))
-            HAL_WARNING("server", "Can't set stack size %zu\n", new_stacksize);
-        if (pthread_create(
-            &server_thread_id, &thread_attr, server_thread, (void *)&server_fd))
-            HAL_ERROR("server", "Starting the server thread failed!\n");
-        if (pthread_attr_setstacksize(&thread_attr, stacksize))
-            HAL_DANGER("server", "Can't set stack size %zu\n", stacksize);
-        pthread_attr_destroy(&thread_attr);
-    }
+    if (pthread_create(&server_thread_id, NULL, server_thread, (void *)&server_fd))
+        HAL_ERROR("server", "Starting the server thread failed!\n");
 
     return EXIT_SUCCESS;
 }

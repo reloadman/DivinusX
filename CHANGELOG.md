@@ -104,7 +104,6 @@ The fork expanded the YAML schema significantly. A curated list:
 - **`system`**
   - `iq_config` (platform-specific IQ profile)
   - `web_bind`
-  - `night_thread_stack_size`
 - **`night_mode`**
   - `manual`, `grayscale`
   - `white_led_pin`

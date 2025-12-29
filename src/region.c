@@ -8,6 +8,8 @@
 #include "media.h"
 #include "night.h"
 
+#define REGION_PNG_CHUNK_LIMIT (4 * 1024 * 1024)
+
 osd osds[MAX_OSD];
 pthread_t regionPid = 0;
 char timefmt[64];
@@ -469,8 +471,8 @@ int region_prepare_image(char *path, hal_bitmap *bitmap) {
 
     spng_set_crc_action(ctx, SPNG_CRC_USE, SPNG_CRC_USE);
     spng_set_chunk_limits(ctx,
-        app_config.web_server_thread_stack_size,
-        app_config.web_server_thread_stack_size);
+        REGION_PNG_CHUNK_LIMIT,
+        REGION_PNG_CHUNK_LIMIT);
     spng_set_png_file(ctx, file);
 
     struct spng_ihdr ihdr;

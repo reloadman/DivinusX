@@ -1754,19 +1754,8 @@ int start_sdk(void) {
             ret, errstr(ret));
 
     if (isp_thread) {
-        pthread_attr_t thread_attr;
-        pthread_attr_init(&thread_attr);
-        size_t stacksize;
-        pthread_attr_getstacksize(&thread_attr, &stacksize);
-        size_t new_stacksize = app_config.isp_thread_stack_size;
-        if (pthread_attr_setstacksize(&thread_attr, new_stacksize))
-            HAL_DANGER("media", "Can't set stack size %zu!\n", new_stacksize);
-        if (pthread_create(
-                     &ispPid, &thread_attr, (void *(*)(void *))isp_thread, NULL))
+        if (pthread_create(&ispPid, NULL, (void *(*)(void *))isp_thread, NULL))
             HAL_ERROR("media", "Starting the imaging thread failed!\n");
-        if (pthread_attr_setstacksize(&thread_attr, stacksize))
-            HAL_DANGER("media", "Can't set stack size %zu!\n", stacksize);
-        pthread_attr_destroy(&thread_attr);
     }
 
     if (app_config.mp4_enable && (ret = enable_mp4()))
@@ -1779,19 +1768,8 @@ int start_sdk(void) {
         HAL_ERROR("media", "JPEG initialization failed with %#x!\n", ret);
 
     {
-        pthread_attr_t thread_attr;
-        pthread_attr_init(&thread_attr);
-        size_t stacksize;
-        pthread_attr_getstacksize(&thread_attr, &stacksize);
-        size_t new_stacksize = app_config.venc_stream_thread_stack_size;
-        if (pthread_attr_setstacksize(&thread_attr, new_stacksize))
-            HAL_DANGER("media", "Can't set stack size %zu\n", new_stacksize);
-        if (pthread_create(
-                     &vidPid, &thread_attr, (void *(*)(void *))vid_thread, NULL))
+        if (pthread_create(&vidPid, NULL, (void *(*)(void *))vid_thread, NULL))
             HAL_ERROR("media", "Starting the video encoding thread failed!\n");
-        if (pthread_attr_setstacksize(&thread_attr, stacksize))
-            HAL_DANGER("media", "Can't set stack size %zu\n", stacksize);
-        pthread_attr_destroy(&thread_attr);
     }
 
     if (!access(app_config.sensor_config, F_OK) && !sleep(1)) {

@@ -537,10 +537,6 @@ int save_app_config(void) {
     if (yaml_map_add_str(fyd, system, "web_auth_pass", app_config.web_auth_pass)) goto EMIT_FAIL;
     if (yaml_map_add_str(fyd, system, "web_auth_skiplocal", app_config.web_auth_skiplocal ? "true" : "false")) goto EMIT_FAIL;
     if (yaml_map_add_str(fyd, system, "web_enable_static", app_config.web_enable_static ? "true" : "false")) goto EMIT_FAIL;
-    if (yaml_map_add_scalarf(fyd, system, "isp_thread_stack_size", "%u", app_config.isp_thread_stack_size)) goto EMIT_FAIL;
-    if (yaml_map_add_scalarf(fyd, system, "venc_stream_thread_stack_size", "%u", app_config.venc_stream_thread_stack_size)) goto EMIT_FAIL;
-    if (yaml_map_add_scalarf(fyd, system, "web_server_thread_stack_size", "%u", app_config.web_server_thread_stack_size)) goto EMIT_FAIL;
-    if (yaml_map_add_scalarf(fyd, system, "night_thread_stack_size", "%u", app_config.night_thread_stack_size)) goto EMIT_FAIL;
     // Use canonical copy to persist (runtime buffer may be touched elsewhere).
     if (!EMPTY(timefmt_cfg))
         if (yaml_map_add_quoted_str(fyd, system, "time_format", timefmt_cfg)) goto EMIT_FAIL;
@@ -811,12 +807,6 @@ enum ConfigError parse_app_config(void) {
     app_config.web_enable_auth = false;
     app_config.web_auth_skiplocal = false;
     app_config.web_enable_static = false;
-    app_config.isp_thread_stack_size = 16 * 1024;
-    app_config.venc_stream_thread_stack_size = 16 * 1024;
-    app_config.web_server_thread_stack_size = 32 * 1024;
-    // Night thread can call into ISP/IQ reload logic which tends to be stack-hungry
-    // on some SDKs (e.g. hisi/v4). Use a safer default than 16KB.
-    app_config.night_thread_stack_size = 64 * 1024;
     app_config.watchdog = 0;
 
     app_config.mdns_enable = false;
@@ -979,18 +969,6 @@ enum ConfigError parse_app_config(void) {
     yaml_get_string(fyd, "/system/web_auth_pass", app_config.web_auth_pass, sizeof(app_config.web_auth_pass));
     yaml_get_bool(fyd, "/system/web_auth_skiplocal", &app_config.web_auth_skiplocal);
     err = yaml_get_bool(fyd, "/system/web_enable_static", &app_config.web_enable_static);
-    if (err != CONFIG_OK && err != CONFIG_PARAM_NOT_FOUND)
-        goto RET_ERR_YAML;
-    err = yaml_get_uint(fyd, "/system/isp_thread_stack_size", 16 * 1024, UINT_MAX, &app_config.isp_thread_stack_size);
-    if (err != CONFIG_OK && err != CONFIG_PARAM_NOT_FOUND)
-        goto RET_ERR_YAML;
-    err = yaml_get_uint(fyd, "/system/venc_stream_thread_stack_size", 16 * 1024, UINT_MAX, &app_config.venc_stream_thread_stack_size);
-    if (err != CONFIG_OK && err != CONFIG_PARAM_NOT_FOUND)
-        goto RET_ERR_YAML;
-    err = yaml_get_uint(fyd, "/system/web_server_thread_stack_size", 16 * 1024, UINT_MAX, &app_config.web_server_thread_stack_size);
-    if (err != CONFIG_OK && err != CONFIG_PARAM_NOT_FOUND)
-        goto RET_ERR_YAML;
-    err = yaml_get_uint(fyd, "/system/night_thread_stack_size", 16 * 1024, UINT_MAX, &app_config.night_thread_stack_size);
     if (err != CONFIG_OK && err != CONFIG_PARAM_NOT_FOUND)
         goto RET_ERR_YAML;
     yaml_get_string(fyd, "/system/time_format", timefmt, sizeof(timefmt));

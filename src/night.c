@@ -399,29 +399,13 @@ int enable_night(void) {
     // Sync manual mode from config on (re)start so it is effective immediately after boot
     // and also after any thread restarts triggered via /api/night.
     night_manual(app_config.night_mode_manual);
-
-    pthread_attr_t thread_attr;
-    pthread_attr_init(&thread_attr);
-    size_t stacksize;
-    pthread_attr_getstacksize(&thread_attr, &stacksize);
-    size_t new_stacksize = (size_t)app_config.night_thread_stack_size;
-#ifdef PTHREAD_STACK_MIN
-    if (new_stacksize < (size_t)PTHREAD_STACK_MIN)
-        new_stacksize = (size_t)PTHREAD_STACK_MIN;
-#endif
-    if (pthread_attr_setstacksize(&thread_attr, new_stacksize))
-        HAL_DANGER("night", "Error:  Can't set stack size %zu\n", new_stacksize);
     // Set the flag before starting the thread to avoid a race where the thread
     // checks `while (keepRunning && nightOn)` before `nightOn` is set.
     nightOn = 1;
-    if (pthread_create(&nightPid, &thread_attr, (void *(*)(void *))night_thread, NULL) != 0) {
+    if (pthread_create(&nightPid, NULL, (void *(*)(void *))night_thread, NULL) != 0) {
         nightOn = 0;
-        pthread_attr_destroy(&thread_attr);
         return EXIT_FAILURE;
     }
-    if (pthread_attr_setstacksize(&thread_attr, stacksize))
-        HAL_DANGER("night", "Error:  Can't set stack size %zu\n", stacksize);
-    pthread_attr_destroy(&thread_attr);
 
     return ret;
 }
